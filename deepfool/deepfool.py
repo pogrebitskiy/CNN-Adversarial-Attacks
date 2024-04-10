@@ -82,3 +82,83 @@ def deepfool(image, net, num_classes=10, overshoot=0.02, max_iter=50):
     r_tot = (1 + overshoot) * r_tot
 
     return r_tot, loop_i, label, k_i, pert_image
+
+
+def deepfool_batch(images, net, num_classes=10, overshoot=0.02, max_iter=50):
+    """
+       :param images: Batch of images of size BxHxWx3
+       :param net: network (input: images, output: values of activation **BEFORE** softmax).
+       :param num_classes: num_classes (limits the number of classes to test against, by default = 10)
+       :param overshoot: used as a termination criterion to prevent vanishing updates (default = 0.02).
+       :param max_iter: maximum number of iterations for deepfool (default = 50)
+       :return: minimal perturbation that fools the classifier, number of iterations that it required, new estimated_label and perturbed image
+    """
+    is_cuda = torch.cuda.is_available()
+
+    if is_cuda:
+        print("Using GPU")
+        images = images.cuda()
+        net = net.cuda()
+    else:
+        print("Using CPU")
+
+    f_images = net.forward(Variable(images, requires_grad=True)).data.cpu().numpy()
+    I = np.argsort(f_images, axis=1)[:, ::-1]
+
+    I = I[:, 0:num_classes]
+    labels = I[:, 0]
+
+    input_shape = images.cpu().numpy().shape
+    pert_images = copy.deepcopy(images)
+    w = np.zeros(input_shape)
+    r_tot = np.zeros(input_shape)
+
+    loop_i = 0
+
+    x = Variable(pert_images, requires_grad=True)
+    fs = net.forward(x)
+    fs_list = [fs[i, I[i, :]] for i in range(fs.shape[0])]
+    k_i = labels
+
+    while (k_i == labels).any() and loop_i < max_iter:
+
+        pert = np.inf
+        fs[:, I[:, 0]].backward(retain_graph=True)
+        grad_orig = x.grad.data.cpu().numpy().copy()
+
+        for k in range(1, num_classes):
+            x.grad.zero_()
+
+            fs[:, I[:, k]].backward(retain_graph=True)
+            cur_grad = x.grad.data.cpu().numpy().copy()
+
+            # set new w_k and new f_k
+            w_k = cur_grad - grad_orig
+            f_k = (fs[:, I[:, k]] - fs[:, I[:, 0]]).data.cpu().numpy()
+
+            pert_k = np.abs(f_k) / np.linalg.norm(w_k.reshape(w_k.shape[0], -1), axis=1)
+
+            # determine which w_k to use
+            if (pert_k < pert).any():
+                pert = pert_k
+                w = w_k
+
+        # compute r_i and r_tot
+        # Added 1e-4 for numerical stability
+        r_i = (pert + 1e-4) * w / np.linalg.norm(w.reshape(w.shape[0], -1), axis=1)[:, None, None, None]
+        r_tot = np.float32(r_tot + r_i)
+
+        if is_cuda:
+            pert_images = images + (1 + overshoot) * torch.from_numpy(r_tot).cuda()
+        else:
+            pert_images = images + (1 + overshoot) * torch.from_numpy(r_tot)
+
+        x = Variable(pert_images, requires_grad=True)
+        fs = net.forward(x)
+        k_i = np.argmax(fs.data.cpu().numpy(), axis=1)
+
+        loop_i += 1
+
+    r_tot = (1 + overshoot) * r_tot
+
+    return r_tot, loop_i, labels, k_i, pert_images
