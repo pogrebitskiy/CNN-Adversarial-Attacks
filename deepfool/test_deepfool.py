@@ -34,6 +34,7 @@ im = transforms.Compose([
                          std=std)])(im_orig)
 
 r, loop_i, label_orig, label_pert, pert_image = deepfool(im, net)
+r = torch.from_numpy(r)
 
 labels = open(os.path.join('synset_words.txt'), 'r').read().split('\n')
 
@@ -58,9 +59,17 @@ tf = transforms.Compose([transforms.Normalize(mean=[0, 0, 0], std=[1 / x for x i
                          transforms.ToPILImage(),
                          transforms.CenterCrop(224)])
 
+
 plt.figure()
 plt.imshow(tf(pert_image.cpu()[0]))
 plt.title(str_label_pert)
+plt.show()
+
+# Show the noise added
+print(r)
+plt.figure()
+plt.imshow(tf(r.cpu()[0]), cmap='gray')
+plt.title('noise')
 plt.show()
 
 # Show the original image
