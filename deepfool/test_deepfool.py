@@ -81,6 +81,6 @@ plt.show()
 
 # Show the original image
 plt.figure()
-plt.imshow(im_orig)
+plt.imshow(tf(im_orig))
 plt.title(str_label_orig)
 plt.show()
