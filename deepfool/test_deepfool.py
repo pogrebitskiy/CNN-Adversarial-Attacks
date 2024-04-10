@@ -8,6 +8,7 @@ import torch
 import torch.optim as optim
 import torch.utils.data as data_utils
 from torch.autograd import Variable
+from PIL import ImageOps
 import math
 import torchvision.models as models
 from PIL import Image
@@ -20,7 +21,7 @@ net = models.resnet34(weights='IMAGENET1K_V1')
 # Switch to evaluation mode
 net.eval()
 
-im_orig = Image.open('test_im1.jpg')
+im_orig = Image.open('test_im2.jpg')
 
 mean = [0.485, 0.456, 0.406]
 std = [0.229, 0.224, 0.225]
@@ -65,11 +66,17 @@ plt.imshow(tf(pert_image.cpu()[0]))
 plt.title(str_label_pert)
 plt.show()
 
-# Show the noise added
-print(r)
+
+# Convert the tensor to a PIL image
+noise_image = tf(r.cpu()[0])
+
+# Apply histogram equalization
+equalized = ImageOps.equalize(noise_image)
+
+# Display the equalized image
 plt.figure()
-plt.imshow(tf(r.cpu()[0]), cmap='gray')
-plt.title('noise')
+plt.imshow(equalized, cmap='gray')
+plt.title('Equalized noise')
 plt.show()
 
 # Show the original image
