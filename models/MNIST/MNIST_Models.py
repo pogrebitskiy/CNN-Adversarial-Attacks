@@ -148,33 +148,6 @@ class MNIST_ResNet(nn.Module):
         return x
 
 
-class MNIST_AlexNet(nn.Module):
-    """ A simple AlexNet model for MNIST dataset.
-
-    Attributes:
-        num_classes (int): The number of classes for classification.
-    """
-
-    def __init__(self, num_classes=10):
-        super(MNIST_AlexNet, self).__init__()
-        self.alexnet = models.alexnet()  # Use an AlexNet model
-        self.alexnet.features[0] = nn.Conv2d(1, 64, kernel_size=11, stride=4,
-                                             padding=2)  # Change the first layer to accept grayscale images
-        self.alexnet.classifier[6] = nn.Linear(4096, num_classes)  # Change the final layer to output 10 classes
-
-    def forward(self, x):
-        """ Forward pass of the network.
-
-        Args:
-            x (torch.Tensor): Input tensor.
-
-        Returns:
-            torch.Tensor: Output tensor after passing through the network.
-        """
-        x = self.alexnet(x)
-        return x
-
-
 class MNIST_GoogLeNet(nn.Module):
     """ A simple GoogLeNet model for MNIST dataset.
 

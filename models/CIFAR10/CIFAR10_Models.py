@@ -84,18 +84,6 @@ class CIFAR10_ResNet(nn.Module):
         return x
 
 
-class CIFAR10_AlexNet(nn.Module):
-    def __init__(self, num_classes=10):
-        super(CIFAR10_AlexNet, self).__init__()
-        self.alexnet = models.alexnet()
-        self.alexnet.features[0] = nn.Conv2d(3, 64, kernel_size=11, stride=4, padding=2)
-        self.alexnet.classifier[6] = nn.Linear(4096, num_classes)
-
-    def forward(self, x):
-        x = self.alexnet(x)
-        return x
-
-
 class CIFAR10_GoogLeNet(nn.Module):
     def __init__(self, num_classes=10):
         super(CIFAR10_GoogLeNet, self).__init__()
