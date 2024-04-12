@@ -112,7 +112,7 @@ def test_model(model, test_loader, device='gpu'):
     return accuracy
 
 
-def plot_training_history(train_acc, train_loss, val_acc, val_loss):
+def plot_training_history(train_acc, train_loss, val_acc, val_loss, title='Training History', save_path=None):
     """ Plot the training history.
 
     Args:
@@ -120,12 +120,15 @@ def plot_training_history(train_acc, train_loss, val_acc, val_loss):
         train_loss (list): The training loss history.
         val_acc (list): The validation accuracy history.
         val_loss (list): The validation loss history.
+        title (str): The title of the plot.
+        save_path (str): The path to save the plot.
     """
+    plt.figure(figsize=(12, 5))
 
-    plt.figure(figsize=(12, 4))
     plt.subplot(1, 2, 1)
     plt.plot(train_acc, label='Train Accuracy')
     plt.plot(val_acc, label='Val Accuracy')
+    plt.title('Accuracy')
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy')
     plt.legend()
@@ -133,8 +136,12 @@ def plot_training_history(train_acc, train_loss, val_acc, val_loss):
     plt.subplot(1, 2, 2)
     plt.plot(train_loss, label='Train Loss')
     plt.plot(val_loss, label='Val Loss')
+    plt.title('Loss')
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.legend()
 
+    plt.suptitle(title)
+    if save_path:
+        plt.savefig(save_path)
     plt.show()
