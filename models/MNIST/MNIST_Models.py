@@ -10,11 +10,11 @@ class MNIST_FC_500_100_10(nn.Module):
         num_classes (int): The number of classes for classification.
     """
 
-    def __init__(self, input_size, num_classes):
+    def __init__(self, num_classes=10):
         super(MNIST_FC_500_100_10, self).__init__()
 
         # Define the layers
-        self.fc1 = nn.Linear(input_size, 500)
+        self.fc1 = nn.Linear(28*28, 500)
         self.fc2 = nn.Linear(500, 100)
         self.fc3 = nn.Linear(100, num_classes)
         self.activation = nn.ReLU()
@@ -184,10 +184,22 @@ class MNIST_GoogLeNet(nn.Module):
 
     def __init__(self, num_classes=10):
         super(MNIST_GoogLeNet, self).__init__()
-        self.googlenet = models.googlenet()  # Use a GoogLeNet model
+        self.googlenet = models.googlenet(aux_logits=False)  # Disable auxiliary outputs
         self.googlenet.conv1 = nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3,
                                          bias=False)  # Change the first layer to accept grayscale images
         self.googlenet.fc = nn.Linear(self.googlenet.fc.in_features,
                                       num_classes)  # Change the final layer to output 10 classes
+
+    def forward(self, x):
+        """ Forward pass of the network.
+
+        Args:
+            x (torch.Tensor): Input tensor.
+
+        Returns:
+            torch.Tensor: Output tensor after passing through the network.
+        """
+        x = self.googlenet(x)
+        return x
 
 
