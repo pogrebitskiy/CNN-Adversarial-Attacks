@@ -2,6 +2,7 @@ import torch
 import numpy as np
 import matplotlib.pyplot as plt
 from tqdm import tqdm
+from art.attacks.evasion import ProjectedGradientDescent
 
 
 def train_model(model, criterion, optimizer, train_loader, val_loader, num_epochs=50, device='gpu'):
@@ -144,4 +145,59 @@ def plot_training_history(train_acc, train_loss, val_acc, val_loss, title='Train
     plt.suptitle(title)
     if save_path:
         plt.savefig(save_path)
+    plt.show()
+
+
+def loader_to_numpy(loader):
+    X = []
+    y = []
+    for data in loader:
+        X.append(data[0].numpy())
+        y.append(data[1].numpy())
+    X = np.concatenate(X)
+    y = np.concatenate(y)
+    return X, y
+
+
+def evaluate_attack(attacker, classifier, X_test, y_test):
+    x_test_adv = attacker.generate(X_test, y_test)
+    x_test_adv_pred = np.argmax(classifier.predict(x_test_adv), axis=1)
+    nb_correct_adv_pred = np.sum(x_test_adv_pred == y_test)
+    return nb_correct_adv_pred
+
+
+def compare_classifiers(classifier1, classifier2, X_test, y_test, eps_values, batch_size):
+    nb_correct_classifier1 = []
+    nb_correct_classifier2 = []
+
+    for eps in eps_values:
+        attacker = ProjectedGradientDescent(classifier1, eps=eps, eps_step=0.01, max_iter=200, batch_size=batch_size)
+        nb_correct_classifier1.append(evaluate_attack(attacker, classifier1, X_test, y_test))
+
+        attacker = ProjectedGradientDescent(classifier2, eps=eps, eps_step=0.01, max_iter=200, batch_size=batch_size)
+        nb_correct_classifier2.append(evaluate_attack(attacker, classifier2, X_test, y_test))
+
+    plt.plot(eps_values, nb_correct_classifier1, 'b--', label='Clean Classifier')
+    plt.plot(eps_values, nb_correct_classifier2, 'r--', label='Adversarial Classifier')
+    plt.legend(loc='upper right', shadow=True, fontsize='large')
+    plt.xlabel('Perturbation size (eps, L-Inf)')
+    plt.ylabel('Classification Accuracy')
+    plt.show()
+
+
+def plot_images(X_test, y_test, clean_classifier, attack, n=5):
+    # Plot the original and adversarial images based on an attack object
+    fig, axs = plt.subplots(2, n, figsize=(15, 5))
+    for i in range(n):
+        axs[0, i].imshow(X_test[i].reshape(28, 28), cmap='gray')
+        axs[0, i].set_title(f"Label: {y_test[i]}")
+        axs[1, i].imshow(attack.generate(X_test[i].reshape(1, 1, 28, 28), np.array([y_test[i]])).reshape(28, 28),
+                         cmap='gray')
+        axs[1, i].set_title(
+            f"Label: {np.argmax(clean_classifier.predict(attack.generate(X_test[i].reshape(1, 1, 28, 28), np.array([y_test[i]]))))}")
+
+    # remove axis labels
+    for ax in axs.flat:
+        ax.label_outer()
+
     plt.show()
