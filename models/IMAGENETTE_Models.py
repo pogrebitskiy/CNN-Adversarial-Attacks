@@ -84,41 +84,13 @@ class Imagenette_ResNet(nn.Module):
         return x
 
 
-class Imagenette_AlexNet(nn.Module):
-    def __init__(self, num_classes=10):
-        super(Imagenette_AlexNet, self).__init__()
-        self.alexnet = models.alexnet()
-        self.alexnet.features[0] = nn.Conv2d(3, 64, kernel_size=11, stride=4, padding=2)
-        self.alexnet.classifier[6] = nn.Linear(4096, num_classes)
-
-    def forward(self, x):
-        x = self.alexnet(x)
-        return x
-
-
 class Imagenette_GoogLeNet(nn.Module):
     def __init__(self, num_classes=10):
         super(Imagenette_GoogLeNet, self).__init__()
-        self.googlenet = models.googlenet()
+        self.googlenet = models.googlenet(aux_logits=False)  # Disable auxiliary outputs
         self.googlenet.conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3, bias=False)
         self.googlenet.fc = nn.Linear(self.googlenet.fc.in_features, num_classes)
 
     def forward(self, x):
         x = self.googlenet(x)
-        return x
-
-
-class Imagenette_FC(nn.Module):
-    def __init__(self, num_classes=10):
-        super(Imagenette_FC, self).__init__()
-        self.fc1 = nn.Linear(3 * 224 * 224, 500)  # Adjust the input size to match Imagenette images
-        self.fc2 = nn.Linear(500, 100)
-        self.fc3 = nn.Linear(100, num_classes)
-        self.activation = nn.ReLU()
-
-    def forward(self, x):
-        x = x.view(x.size(0), -1)  # Flatten the image
-        x = self.activation(self.fc1(x))
-        x = self.activation(self.fc2(x))
-        x = self.fc3(x)
         return x
