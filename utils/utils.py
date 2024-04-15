@@ -185,9 +185,13 @@ def compare_classifiers(classifier1, classifier2, X_test, y_test, eps_values, ba
     plt.show()
 
 
-def plot_images(X_test, y_test, clean_classifier, attack, n=5):
+def plot_images(X_test, y_test, clean_classifier, attack, title, n=5):
     # Plot the original and adversarial images based on an attack object
     fig, axs = plt.subplots(2, n, figsize=(15, 5))
+
+    # Add a title to the figure
+    fig.suptitle(title, fontsize=16)
+
     for i in range(n):
         axs[0, i].imshow(X_test[i].reshape(28, 28), cmap='gray')
         axs[0, i].set_title(f"Label: {y_test[i]}")
@@ -195,6 +199,10 @@ def plot_images(X_test, y_test, clean_classifier, attack, n=5):
                          cmap='gray')
         axs[1, i].set_title(
             f"Label: {np.argmax(clean_classifier.predict(attack.generate(X_test[i].reshape(1, 1, 28, 28), np.array([y_test[i]]))))}")
+
+    # Add titles to the rows
+    axs[0, 0].set_ylabel('Original Images', fontsize=12)
+    axs[1, 0].set_ylabel('Adversarial Images', fontsize=12)
 
     # remove axis labels
     for ax in axs.flat:
