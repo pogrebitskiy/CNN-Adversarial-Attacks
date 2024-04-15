@@ -26,7 +26,7 @@ mean = [0.485, 0.456, 0.406]
 std = [0.229, 0.224, 0.225]
 
 # Define the root directory and the transforms
-root_dir = './data'
+root_dir = '../data'
 
 transform = transforms.Compose([
     transforms.Resize(256),
@@ -34,6 +34,10 @@ transform = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize(mean=mean,
                          std=std)])
+
+# Set the seed for generating random numbers
+torch.manual_seed(0)
+np.random.seed(0)
 
 # Create an instance of the Imagenette class
 try:
@@ -49,6 +53,7 @@ print('Actual class name', imagenette_train_data.classes[label])
 
 r, loop_i, label_orig, label_pert, pert_image = deepfool(im, net)
 r = torch.from_numpy(r)
+print('Orig Label', label_orig)
 
 labels = open(os.path.join('synset_words.txt'), 'r').read().split('\n')
 
