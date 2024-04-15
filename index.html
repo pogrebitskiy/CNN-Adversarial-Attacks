@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="en">
 <head>
-<title>Your Project Name</title>
-<meta property="og:title" content=Your Project Name" />
-<meta name="twitter:title" content="Your Project Name" />
+<title>Protecting CV Models Against Adversarial Attacks</title>
+<meta property="og:title" content="Protecting CV Models Against Adversarial Attacks" />
+<meta name="twitter:title" content="Protecting CV Models Against Adversarial Attacks" />
 <meta name="description" content="Your project about your cool topic described right here." />
 <meta property="og:description" content="Your project about your cool topic described right here." />
 <meta name="twitter:description" content="Your project about your cool topic described right here." />
@@ -22,8 +22,8 @@
 <div class="nd-pageheader">
  <div class="container">
  <h1 class="lead">
- <nobr class="widenobr">Your Project Name</nobr>
- <nobr class="widenobr">For CS 7150</nobr>
+ <nobr class="widenobr">Adversarial Robustness of Different Network Structures</nobr>
+ <nobr class="widenobr">For CS 4440</nobr>
  </h1>
  </div>
 </div><!-- end nd-pageheader -->
@@ -31,8 +31,9 @@
 <div class="container">
 <div class="row">
 <div class="col justify-content-center text-center">
-<h2>An Analysis of [papername]</h2>
-<p>Describe the paper and the big question about it that interests you.</p>
+<h2>An Analysis of <i>Towards Deep Learning Models Resistant to Adversarial
+  Attacks</i></h2>
+<p></p>
 </div>
 </div>
 <div class="row">
@@ -46,12 +47,92 @@
 <p>Optionally, in addition to a reading-based analysis, implement the ideas of the paper in code, and report on your findings.
 </p>
 
+<h2>Introduction</h2>
+
+<p>Computer Vision models have become very reliable classifiers of complex image data, however, they have been shown to be quite easily tricked into misclassifying slightly altered data.
+  This paper tackles a critical challenge in the field of deep learning - the vulnerability of neural networks to adversarial attacks.
+  Adversarial examples are inputs that are almost indistinguishable from natural data, yet are classified incorrectly by the network with high confidence.
+  These attacks not only pose security implications, but also reveal that our current models are not necessarily generalizing as well as we would like.</p>
+
+<p>We recreated the experiments by training five of our own models on the MNIST dataset and tested their adversarial robustness using PGD, BIM, and FGSM
+  to generate adversarial examples. Our goal was to test a wider range of network architectures and determine how large of a role the structure 
+  plays in the model's ability to generalize better, thus being more robust to adversarial attacks.
+</p>
+  
+<p>Achieving adversarial robustness is an important step towards making networks more secure and reliable, 
+especially in high-stakes applications like autonomous driving and malware detection. 
+The insights from this work could pave the way for a new generation of deep neural networks that are much more resistant adversarial attacks.</p>
+
+<h2>Paper Overview</h2>
+<p>The key challenge addressed in this paper is the vulnerability of deep neural networks to adversarial examples 
+,inputs that are almost indistinguishable from natural data, yet are classified incorrectly.</p>
+
+<p>
+Through different experiments, the authors demonstrate that finding adversarial examples has a computationally efficient solution. 
+With simple first-order methods like projected gradient descent (PGD) reliably finding local maxima with similar loss values. Leveraging these insights, 
+the authors trained neural networks on MNIST and CIFAR10 datasets that achieve high robustness against a wide range of adversarial attacks, 
+including iterative methods like PGD. This represents a significant advance over prior work, which was often vulnerable to more sophisticated adversaries.
+</p>
+
+<h2>Methods</h2>
+<h4>Model Training</h4>
+<p></p>
+<h4>Adversarial Training</h4>
+<p></p>
+
+<h3>Bibliography</h3>
+
+<div class="image-container">
+  <img src="images/Aleksander_Madry.png" alt="Image-bib">
+  <p>
+    <b>Aleksander Madry</b>
+    Cadence Design Systems Professor of Computing in the MIT EECS Department. 
+    Director of the MIT Center for Deployable Machine Learning and a Faculty Co-Lead of the MIT AI Policy Forum.
+  </p>
+</div>
+
+<div class="image-container">
+  <img src="images/avatar_scholar.png" alt="Image-bib">
+  <p>
+    <b>Aleksandar Makelov</b>
+    Independent researcher working on mechanistic interpretability of large language models.
+    Did his PhD from MIT.
+  </p>
+</div>
+
+<div class="image-container">
+  <img src="images/ludwig_schmidt.jpeg" alt="Image-bib">
+  <p>
+    <b>Ludwig Schmidt</b>
+    Assistant professor in computer science at the University of Washington.
+    He is also a research scientist in the AllenNLP team at AI2 and a member of LAION.
+  </p>
+</div>
+
+<div class="image-container">
+  <img src="images/tsipras.jpeg" alt="Image-bib">
+  <p>
+    <b>Dimitris Tsipras</b>
+    He is currently a research scientist at OpenAI.
+    Before that, he was a postdoc at Stanford CS and did his PhD in CS at MIT.
+  </p>
+</div>
+
+<div class="image-container">
+  <img src="images/vladu.png" alt="Image-bib">
+  <p>
+    <b>Adrian Vladu</b>
+    He is a permanent researcher at IRIF, affiliated with CNRS and Université Paris Cité.
+    Before that, he received his PhD from MIT Math in 2017, which was followed by a postdoc at Boston University.
+  </p>
+</div>
+
 <h3>References</h3>
 
-<p><a name="bottou-1990">[1]</a> <a href="https://papers.baulab.info/Bottou-1990.pdf"
-  >L&eacute;on Bottou and Patrick Gallinari.
-  <em>A framework for the cooperation of learning algorithms.</em></a>
-  Advances in neural information processing systems 3 (1990).
+<p><a name="Adversarial Attack Resistance">[1]</a> <a href="https://arxiv.org/pdf/1706.06083.pdf"
+  >L&eacute; Madry et al.
+  <em>Towards Deep Learning Models Resistant to Adversarial Attacks</em></a>
+  arXiv:1706.06083v4 [stat.ML] 4 Sep 2019
 </p>
 
 <h2>Team Members</h2>
@@ -66,7 +147,7 @@
 <footer class="nd-pagefooter">
   <div class="row">
     <div class="col-6 col-md text-center">
-      <a href="https://cs7150.baulab.info/">About CS 7150</a>
+      <a href="https://cs7150.baulab.info/">About CS 4440</a>
     </div>
   </div>
 </footer>
