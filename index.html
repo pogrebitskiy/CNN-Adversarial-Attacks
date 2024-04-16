@@ -39,14 +39,6 @@
 <div class="row">
 <div class="col">
 
-<h2>Literature Review; Biography; Social Impact; Industry Applications; Follow-on Research; and Peer-Review</h2>
-
-<p>Just as we have done in the role-playing exercise, analyze the paper from all perspectives.
-</p>
-
-<p>Optionally, in addition to a reading-based analysis, implement the ideas of the paper in code, and report on your findings.
-</p>
-
 <h2>Introduction</h2>
 
 <p>Computer Vision models have become very reliable classifiers of complex image data, however, they have been shown to be quite easily tricked into misclassifying slightly altered data.
@@ -73,12 +65,6 @@ With simple first-order methods like projected gradient descent (PGD) reliably f
 the authors trained neural networks on MNIST and CIFAR10 datasets that achieve high robustness against a wide range of adversarial attacks, 
 including iterative methods like PGD. This represents a significant advance over prior work, which was often vulnerable to more sophisticated adversaries.
 </p>
-
-<h2>Methods</h2>
-<h4>Model Training</h4>
-<p></p>
-<h4>Adversarial Training</h4>
-<p></p>
 
 <h3>Bibliography</h3>
 
@@ -126,6 +112,64 @@ including iterative methods like PGD. This represents a significant advance over
     Before that, he received his PhD from MIT Math in 2017, which was followed by a postdoc at Boston University.
   </p>
 </div>
+
+<h2>Methods</h2>
+<h4>Model Training</h4>
+<ul>
+  <li>
+    <strong>2-layer fully connected:</strong>
+    This network is a simple model with one hidden layer between the input and output layers.
+    This model was used as a baseline for testing adversarial robustness against more complex architectures.
+  </li>
+  <li>
+    <strong>VGG:</strong>
+    VGG (Visual Geometry Group) is a deep convolutional neural network known for its simplicity and effectiveness. 
+    It consists of multiple convolutional layers followed by max-pooling layers, with progressively increasing depth.
+  </li>
+  <li>
+    <strong>LeNet:</strong>
+    LeNet is one of the earliest convolutional neural networks, designed for handwritten digit recognition. 
+    It comprises several layers of convolution, max-pooling, and fully connected layers.
+  </li>
+  <li>
+    <strong>GoogLeNet:</strong>
+    GoogLeNet, also known as Inception v1, is a deep convolutional neural network famous for its inception modules, 
+    which allow for efficient training and better performance by using multiple parallel convolutional operations at each layer.
+  </li>
+  <li>
+    <strong>ResNet:</strong>
+    ResNet (Residual Network) introduced residual connections, enabling the training of very deep neural networks 
+    by mitigating the vanishing gradient problem. It features skip connections that add the input to the output of a deeper layer, 
+    facilitating the flow of gradients during training.
+  </li>
+</ul>
+
+<p>
+  We picked these models because each architecture contributed a substantial amount to the improvement of CNNs and computer vision.
+  We wanted to see which architecture might be the most resistant to adversarial attacks.
+</p>
+
+<div style="max-width: 100%;">
+  <img src="figures/training/MNIST_VGG.png" alt="Training" style="max-width: 100%;" />
+  <p style="text-align: center;">Accuracy and loss for VGG model trained on MNIST data</p>
+</div>
+
+<p>
+  Each model was trained from scratch for 50 epochs on the MNIST dataset. We then tested each model's performance on
+   the raw test set and adversarial adversarial images from each of the 3 types of attacks (PGD, BIM, FGSM).
+</p>
+
+<h4>Adversarial Training</h4>
+<p>After evaluating the original and augmented test sets on the models, we further trained each model for an additional 10 epochs 
+  using an augmented dataset. This new training data comprised a 50/50 split between original data and augmented images generated 
+  using each of the three adversarial attacks (PGD, BIM, and FGSM), resulting in 5 distinct models trained on 3 datasets each, 
+  totaling 15 models with their respective trained parameters.
+</p>
+
+<h2>Experimental Findings</h2>
+<p>
+  
+</p>
 
 <h3>References</h3>
 
