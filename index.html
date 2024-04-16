@@ -166,17 +166,128 @@ including iterative methods like PGD. This represents a significant advance over
   totaling 15 models with their respective trained parameters.
 </p>
 
+<div style="max-width: 100%;">
+  <img src="figures/testing/PGD_attacks.png" alt="Examples" style="max-width: 100%;" />
+  <p style="text-align: center;">PGD adversarial examples</p>
+</div>
+
+<a>Code testing our models can be found in attacks/attack_MNIST.ipynb</a>
+
 <h2>Experimental Findings</h2>
 <p>
-  
+  After incorporating adversarial examples into our training process, we observed a slight decrease in 
+  the overall accuracy of our model on the original dataset. However, this reduction in accuracy was 
+  accompanied by a significant increase in adversarial robustness. By exposing the model to adversarial 
+  perturbations during training, it became more resilient to such attacks, demonstrating improved performance 
+  when faced with previously unseen adversarial inputs. This trade-off between accuracy on 
+  benign examples and robustness against adversarial attacks underscores the utility of incorporating 
+  adversarial training techniques.
 </p>
 
-<h3>References</h3>
+<table class="tableizer-table">
+  EPS = 0.2 - The EPS is the maximum perterbation size (L-inf)
+<thead><tr><th>Model/Accuracy</th><th>Original Data</th><th>FGSM Adversarial</th><th>BIM Adversarial</th><th>PGD Adversarial</th></tr></thead><tbody>
+ <tr><td>2-Layer Net</td><td>0.9884</td><td>0.5251</td><td>0.1897</td><td>0.1897</td></tr>
+ <tr><td>VGG</td><td>0.9951</td><td>0.7865</td><td>0.2252</td><td>0.2252</td></tr>
+ <tr><td>LeNet</td><td>0.9927</td><td>0.8184</td><td>0.3073</td><td>0.3073</td></tr>
+ <tr><td>GoogLeNet</td><td>0.994</td><td>0.2954</td><td>0.1344</td><td>0.1344</td></tr>
+ <tr><td>ResNet</td><td>0.9934</td><td>0.1247</td><td>0.088</td><td>0.088</td></tr>
+</tbody> 
+</table>
+
+<p style="margin-top: 20px;">
+  GoogleNet and ResNet exhibited poor performance when tested with adversarial examples, despite their 
+  good performance on the standard test data. This discrepancy might be attributed to the relatively small 
+  size of the MNIST dataset, which could result in these larger models overfitting to the training data. 
+  Consequently, the susceptibility of these models to even minor perturbations could be exacerbated 
+  due to overfitting.
+</p>
+
+<table class="tableizer-table">
+  <thead><tr><th></th><th>FGSM Hardened</th><th>&nbsp;</th><th>BIM Hardened</th><th>&nbsp;</th><th>PGD Hardened</th><th>&nbsp;</th></tr></thead><tbody>
+   <tr><td>Model/Accuracy</td><td>Original Data</td><td>FGSM Adverserial</td><td>Original Data</td><td>BIM Hardened</td><td>Original Data</td><td>PGD Hardened</td></tr>
+   <tr><td>2-Layer Net</td><td>0.9737</td><td>0.8335</td><td>0.9778</td><td>0.8168</td><td>0.978</td><td>0.815</td></tr>
+   <tr><td>VGG</td><td>0.9898</td><td>0.9634</td><td>0.9925</td><td><b>0.9703</b></td><td>0.9906</td><td>0.9555</td></tr>
+   <tr><td>LeNet</td><td>0.9903</td><td>0.94</td><td>0.9898</td><td>0.9282</td><td>0.9895</td><td>0.927</td></tr>
+   <tr><td>GoogLeNet</td><td><b>0.9936</b></td><td>0.9629</td><td>0.9918</td><td>0.9531</td><td>0.9905</td><td>0.9493</td></tr>
+   <tr><td>ResNet</td><td>0.993</td><td><b>0.9713</b></td><td><b>0.9944</b></td><td>0.9618</td><td><b>0.9933</b></td><td><b>0.9663</b></td></tr>
+   <tr><th>Accuracy Difference</th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
+   <tr><td>2-Layer Net</td><td>-0.0147</td><td>0.3084</td><td>-0.0106</td><td>0.6271</td><td>0.7883</td><td>0.6253</td></tr>
+   <tr><td>VGG</td><td>-0.0053</td><td>0.1769</td><td>-0.0026</td><td>0.7451</td><td>0.7654</td><td>0.7303</td></tr>
+   <tr><td>LeNet</td><td>-0.0024</td><td>0.1216</td><td>-0.0029</td><td>0.6209</td><td>0.6822</td><td>0.6197</td></tr>
+   <tr><td>GoogLeNet</td><td><b>-0.0004</b></td><td>0.6675</td><td>-0.0022</td><td>0.8187</td><td>0.8561</td><td>0.8149</td></tr>
+   <tr><td>ResNet</td><td><b>-0.0004</b></td><td><b>0.8466</b></td><td><b>0.001</b></td><td><b>0.8738</b></td><td><b>0.9053</b></td><td><b>0.8783</b></td></tr>
+  </tbody></table>
+
+  <p>Based on the table, here are some key insights:</p>
+   <ol>
+    <li>
+      The first table shows that models without adversarial training (Original Data) achieve high accuracy 
+      on clean examples but perform poorly on adversarial examples, highlighting the vulnerability of standard 
+      models to adversarial attacks
+    </li> 
+    <li>ResNet appears to be the most robust model against adversarial attacks across all
+       hardening methods (FGSM, BIM, PGD). It has the smallest accuracy drop on original 
+       data compared to the hardened models, and the highest accuracy on adversarial examples.
+    </li>
+    <li>GoogLeNet also performs relatively well, especially on the FGSM adversarial examples where 
+      it has the second highest accuracy of 0.9629. However, ResNet outperforms it on the BIM and 
+      PGD adversarial sets.
+    </li>
+    <li>The 2-Layer Net model seems to be the least robust, having the
+      largest accuracy drops when evaluated on adversarial examples compared to original data.
+    </li>
+    <li>
+      Adversarial training with PGD hardening appears to provide the best robustness across models, 
+      resulting in higher accuracies on PGD adversarial sets compared to FGSM and BIM for each model.
+    </li>
+    <li>VGG and LeNet have moderate robustness, performing better than the 2-Layer Net but worse than 
+      GoogLeNet and ResNet on adversarial examples.
+    </li>
+    <li>For the more complex GoogLeNet and ResNet models, the accuracy drop on original data after 
+      hardening is very small (0.0004), indicating that adversarial training did not significantly 
+      impact their performance on clean data.
+    </li>
+  </ol>
+  <p>In summary, the table suggests that more complex models like ResNet and GoogLeNet, coupled with strong adversarial training methods like PGD hardening, can provide significant robustness against adversarial attacks while maintaining high accuracy on original data.</p>
+
+<h2>Conclusions</h2>
+<p>
+  The network architecture plays a crucial role in robustness to adversarial attacks. Deeper and more complex 
+  models like ResNet and GoogLeNet exhibit higher robustness compared to simpler architectures like the 2-Layer 
+  Net and LeNet, likely due to their increased capacity and flexibility to learn robust feature representations 
+  during adversarial training. Architectural elements such as residual connections in ResNet and skip connections 
+  in GoogLeNet's Inception modules contribute to maintaining performance on clean examples while learning 
+  robustness against adversarial perturbations. In contrast, simple feed-forward architectures struggle to learn 
+  robustness without compromising accuracy on clean data. While depth helps, architectural inductive biases
+  beyond just stacking convolutions, as seen in the VGG results, may be necessary for robustness. The
+  architectural design choices provide effective inductive biases that facilitate learning robust representations 
+  against adversarial attacks during training.
+</p>
+
+<h4>Future Work</h4>
+<p>Adversarial training techniques could be extended to broader applications and larger, more diverse datasets 
+  beyond image classification tasks. As neural network architectures become more advanced, with innovations 
+  like transformers and diffusion models, it will be crucial to investigate their robustness against sophisticated
+  adversarial attacks tailored to these new architectures. A particularly concerning area is the potential to
+  apply adversarial attacks to large language models (LLMs) with the goal of tricking them into generating 
+  harmful or restricted content that they have been specifically trained not to produce. Developing robust LLMs
+  resilient to such adversarial prompts will be critical for ensuring the safe and responsible deployment of
+  these powerful AI systems across various domains.
+</p>
+
+<h3 class="references">References</h3>
 
 <p><a name="Adversarial Attack Resistance">[1]</a> <a href="https://arxiv.org/pdf/1706.06083.pdf"
   >L&eacute; Madry et al.
   <em>Towards Deep Learning Models Resistant to Adversarial Attacks</em></a>
   arXiv:1706.06083v4 [stat.ML] 4 Sep 2019
+</p>
+
+<p><a name="DeepFool">[2]</a> <a href="https://arxiv.org/pdf/1511.04599.pdf"
+  >L&eacute; Moosavi-Dezfooli et al.
+  <em>DeepFool: a simple and accurate method to fool deep neural networks</em></a>
+  arXiv:1511.04599 [cs.LG] 4 Jul 2016
 </p>
 
 <h2>Team Members</h2>
