@@ -83,7 +83,7 @@ def train_model(model, criterion, optimizer, train_loader, val_loader, num_epoch
     return model, train_acc, train_loss, val_acc, val_loss
 
 
-def test_model(model, test_loader, device='gpu'):
+def test_model(model, test_loader, device='cuda'):
     """ Test the model.
 
     Args:
