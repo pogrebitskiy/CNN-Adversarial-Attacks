@@ -99,3 +99,8 @@ table.tableizer-table {
 .references {
   margin-top: 20px;
 }
+
+.rotate {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
