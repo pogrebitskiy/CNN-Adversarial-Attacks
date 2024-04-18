@@ -503,15 +503,21 @@
             <h4>Error Analysis</h4>
             <p>
                 The error analysis of the models revealed that the most common misclassifications occurred between
-                visually similar digits, such as 4 and 9, 3 and 8, and 5 and 6. These pairs of digits have similar
+                visually similar digits, such as 4 and 9, 3 and 8, 7 and 1, and 5 and 6. These pairs of digits have similar
                 structures and can be easily confused by the model, especially when the input is perturbed by an
-                adversarial attack. There were instances of samples that weren't classified correctly by the original model
-                nor the hardened models. After examination, we found that these samples were even difficult for humans to
-                classify correctly, like the ones below. This suggests some type of irreducible error that is inherent to the dataset itself.
+                adversarial attack. We examined two types of errors: those that were misclassified by all four models, and
+                those that were correctly classified by the original model but misclassified by the hardened models.
+                For both of these error types, the misclassified samples were often visually ambiguous and difficult to
+                classify even for humans. This suggests some type of irreducible error that is inherent to the dataset itself.
             </p>
-            <div style="max-width: 100%;">
-                <img src="figures/testing/misclassified.png" alt="misclassified" style="max-width: 100%;"/>
-            </div>
+            <figure>
+                <img src="figures/testing/misclassified_by_hardened.png" alt="misclassified by hardened" style="max-width: 100%;"/>
+                <figcaption>Examples of digits misclassified by the hardened models but correctly classified by the original model</figcaption>
+            </figure>
+            <figure style="max-width: 100%;">
+                <img src="figures/testing/misclassified_by_all.png" alt="misclassified by all" style="max-width: 100%;"/>
+                <figcaption>Examples of digits misclassified by all models</figcaption>
+            </figure>
             <p>
             </p>
 
