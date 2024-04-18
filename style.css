@@ -101,10 +101,12 @@ table.tableizer-table {
   margin-top: 20px;
 }
 
+.rotate-container {
+  writing-mode: vertical-rl;
+}
+
 .rotate {
-  transform: rotate(270deg);
-  padding: 0;
-  margin: 0;
+  transform: rotate(180deg);
 }
 
 .table-container {
