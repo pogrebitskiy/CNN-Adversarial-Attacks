@@ -104,7 +104,6 @@ table.tableizer-table {
 .rotate {
   writing-mode: horizontal-tb;
     transform: rotate(270deg);
-  width: 20px;
 }
 
 .table-container {
