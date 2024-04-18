@@ -103,7 +103,7 @@ table.tableizer-table {
 
 .rotate-cell {
   writing-mode: vertical-lr;
-  transform: rotate(-180deg);
+  transform: rotate(270deg);
   text-align: center;
   padding: 0.5em;
 }
