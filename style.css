@@ -105,7 +105,8 @@ table.tableizer-table {
   writing-mode: vertical-rl;
   text-orientation: mixed;
   transform: rotate(270deg);
-  padding-top: 1em; /* Adjust the padding as needed */
+  padding-top: 1em;
+  width:30px;
 }
 
 .table-container {
