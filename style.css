@@ -94,6 +94,7 @@ table.tableizer-table {
   background-color: #104E8B; 
   color: #FFF;
   font-weight: bold;
+  width: 45%;
 }
 
 .references {
@@ -104,4 +105,9 @@ table.tableizer-table {
   writing-mode: vertical-rl;
   transform: rotate(270deg);
   width: 20px;
+}
+
+.table-container {
+    display: flex;
+    justify-content: space-between; /* Optional: Adds space between the tables */
 }
