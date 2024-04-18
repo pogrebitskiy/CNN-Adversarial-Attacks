@@ -185,10 +185,10 @@ including iterative methods like PGD. This represents a significant advance over
   benign examples and robustness against adversarial attacks underscores the utility of incorporating 
   adversarial training techniques.
 </p>
+    <p>EPS = 0.2 - The EPS is the maximum perterbation size (L-inf)</p>
 <div class="table-container">
     <table class="tableizer-table">
     <caption>Original Model Accuracy against Aversarial Attacks</caption>
-  EPS = 0.2 - The EPS is the maximum perterbation size (L-inf)
 <thead><tr><th>Model/Accuracy</th><th>Original Data</th><th>FGSM Adversarial</th><th>BIM Adversarial</th><th>PGD Adversarial</th></tr></thead><tbody>
  <tr><td>2-Layer Net</td><td>0.9884</td><td>0.5251</td><td>0.1897</td><td>0.1897</td></tr>
  <tr><td>VGG</td><td><b>0.9951</b></td><td>0.7865</td><td>0.2252</td><td>0.2252</td></tr>
