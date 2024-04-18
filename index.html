@@ -173,7 +173,7 @@ including iterative methods like PGD. This represents a significant advance over
   <p style="text-align: center;">PGD adversarial examples</p>
 </div>
 
-<a>Code testing our models can be found in attacks/attack_MNIST.ipynb</a>
+<a>Code testing our models can be found in attacks/attack_MNIST_Models.ipynb</a>
 
 <h2>Experimental Findings</h2>
 <p>
@@ -185,10 +185,10 @@ including iterative methods like PGD. This represents a significant advance over
   benign examples and robustness against adversarial attacks underscores the utility of incorporating 
   adversarial training techniques.
 </p>
-    <p>EPS = 0.2 - The EPS is the maximum perterbation size (L-inf)</p>
+    <p>EPS = 0.2 - The EPS is the maximum perturbation size (L-inf)</p>
 <div class="table-container">
     <table class="tableizer-table">
-    <caption>Original Model Accuracy against Aversarial Attacks</caption>
+    <caption>Original model accuracy against each adversarial attack</caption>
 <thead><tr><th>Model/Accuracy</th><th>Original Data</th><th>FGSM Adversarial</th><th>BIM Adversarial</th><th>PGD Adversarial</th></tr></thead><tbody>
  <tr><td>2-Layer Net</td><td>0.9884</td><td>0.5251</td><td>0.1897</td><td>0.1897</td></tr>
  <tr><td>VGG</td><td><b>0.9951</b></td><td>0.7865</td><td>0.2252</td><td>0.2252</td></tr>
@@ -199,7 +199,7 @@ including iterative methods like PGD. This represents a significant advance over
 </table>
 
     <table class="tableizer-table">
-    <caption>ResNet Models vs Types of Attacks</caption>
+    <caption>All hardened ResNet models vs each type of adversarial attack</caption>
 <thead><tr class="tableizer-firstrow">
     <th></th>
     <th><b>ResNet</b></th>
@@ -217,9 +217,10 @@ including iterative methods like PGD. This represents a significant advance over
     </p>
 
 <table class="tableizer-table" style="width: 90%">
-    <caption>Accuracy of Models on Original and Adversarial Data and Change from Original Model</caption>
+    <caption>Top half: Accuracy of each model on the original testing data and adversarial data</caption>
+    <caption>Bottom half: Accuracy difference between original model and hardened model</caption>
   <thead><tr><th></th><th colspan="2" style="text-align: center;">FGSM Hardened</th><th colspan="2" style="text-align: center;">BIM Hardened</th><th colspan="2" style="text-align: center;">PGD Hardened</th></tr></thead><tbody>
-   <tr><td>Model/Accuracy</td><td>Original Data</td><td>FGSM Adverserial</td><td>Original Data</td><td>BIM Adversarial</td><td>Original Data</td><td>PGD Adversarial</td></tr>
+   <tr><td>Model/Accuracy</td><td>Original Data</td><td>FGSM Adversarial</td><td>Original Data</td><td>BIM Adversarial</td><td>Original Data</td><td>PGD Adversarial</td></tr>
    <tr><td>2-Layer Net</td><td>0.9737</td><td>0.8335</td><td>0.9778</td><td>0.8168</td><td>0.978</td><td>0.815</td></tr>
    <tr><td>VGG</td><td>0.9898</td><td>0.9634</td><td>0.9925</td><td><b>0.9703</b></td><td>0.9906</td><td>0.9555</td></tr>
    <tr><td>LeNet</td><td>0.9903</td><td>0.94</td><td>0.9898</td><td>0.9282</td><td>0.9895</td><td>0.927</td></tr>

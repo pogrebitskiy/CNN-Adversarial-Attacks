@@ -102,8 +102,7 @@ table.tableizer-table {
 }
 
 .rotate {
-  writing-mode: vertical-rl;
-  transform: rotate(270deg);
+  writing-mode: sideways-rl;
   width: 20px;
 }
 
