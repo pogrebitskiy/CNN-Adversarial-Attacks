@@ -103,5 +103,5 @@ table.tableizer-table {
 .rotate {
   writing-mode: vertical-rl;
   transform: rotate(270deg);
-  width: auto;
+  width: 20px;
 }
