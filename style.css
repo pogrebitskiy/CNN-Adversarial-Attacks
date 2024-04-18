@@ -101,12 +101,16 @@ table.tableizer-table {
   margin-top: 20px;
 }
 
-.rotate-container {
-  writing-mode: vertical-rl;
+.rotate-cell {
+  writing-mode: vertical-lr;
+  transform: rotate(-180deg);
+  text-align: center;
+  padding: 0.5em;
 }
 
 .rotate {
-  transform: rotate(270deg);
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .table-container {
