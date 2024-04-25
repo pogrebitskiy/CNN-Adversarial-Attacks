@@ -1,19 +1,35 @@
-# Class Project Website Template
+# Protecting CV Models Against Adversarial Attacks
 
-Copy this template on github, and rename the repo to the name of your project.
+This project is an analysis of the paper "Towards Deep Learning Models Resistant to Adversarial Attacks". The project aims to recreate the experiments from the paper by training five different models on the MNIST dataset and testing their adversarial robustness using PGD, BIM, and FGSM to generate adversarial examples. The goal is to test a wider range of network architectures and determine how large of a role the structure plays in the model's ability to generalize better, thus being more robust to adversarial attacks.
 
-Then go to the repo "Settings" and change "Webhook" settings, to "Add a webhook."
+You can view the project's website [here](https://expo.baulab.info/2024-Spring/pogrebitskiy/).
 
-Set up the webhook exactly as you see in the image below, so that it sends
-JSON push notifications to `https://expo.baulab.info/push`.  To work, it will
-need to have the secret pictured.
+## Models
 
-<img src="webhook.png" style="max-width:100%">
+The project trains and tests the following models:
 
-Then whenever you push your website, it will show up on
-https://expo.baulab.info/2024-Spring/[username].  Customize your
-`index.html`.
+- 2-layer fully connected network
+- VGG
+- LeNet
+- GoogLeNet
+- ResNet
 
-Your final project report will be a static HTML website that
-shares your insights.  As you develop your
-methods, results, and narrative, add content as needed here
+Each model is trained from scratch for 50 epochs on the MNIST dataset. The models' performances are then tested on the raw test set and adversarial images from each of the 3 types of attacks (PGD, BIM, FGSM).
+
+## Adversarial Training
+
+After evaluating the original and augmented test sets on the models, each model is further trained for an additional 10 epochs using an augmented dataset. This new training data comprises a 50/50 split between original data and augmented images generated using each of the three adversarial attacks (PGD, BIM, and FGSM).
+
+## Experimental Findings
+
+The project presents detailed findings from the experiments, including tables and figures showing the accuracy of each model on the original testing data and adversarial data, as well as the accuracy difference between the original model and the hardened model.
+
+## Team Members
+
+- David Pogrebitskiy: pogrebitskiy.d@northeastern.edu
+- Benjamin Wyant: wyant.b@northeastern.edu
+
+## References
+
+- [Towards Deep Learning Models Resistant to Adversarial Attacks](https://arxiv.org/pdf/1706.06083.pdf)
+- [DeepFool: a simple and accurate method to fool deep neural networks](https://arxiv.org/pdf/1511.04599.pdf)
