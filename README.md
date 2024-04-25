@@ -1,4 +1,4 @@
-# Protecting CV Models Against Adversarial Attacks
+# An Analysis of Towards Deep Learning Models Resistant to Adversarial Attacks
 
 This project is an analysis of the paper "Towards Deep Learning Models Resistant to Adversarial Attacks". The project aims to recreate the experiments from the paper by training five different models on the MNIST dataset and testing their adversarial robustness using PGD, BIM, and FGSM to generate adversarial examples. The goal is to test a wider range of network architectures and determine how large of a role the structure plays in the model's ability to generalize better, thus being more robust to adversarial attacks.
 
